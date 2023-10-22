@@ -6,7 +6,6 @@ import useSticky from "@/src/hooks/use-sticky";
 import HamburgerBtn from "@/src/svg/hamburger-btn";
 import React, { useEffect, useRef, useState } from "react";
 import HomeIcon from "@/src/svg/home-icon";
-import SearchPopup from "@/src/modals/search-popup";
 import Sidebar from "@/src/modals/sidebar";
 import Logo from "@assets/img/logo/logo.png";
 
@@ -160,11 +159,6 @@ const HeaderOne = () => {
 								</div>
 								<div className='col-xxl-3 col-xl-3'>
 									<div className='tp-header-main-right d-flex align-items-center justify-content-xl-end'>
-										<div className='tp-header-search search-open-btn d-none d-xxl-block'>
-											<button onClick={() => setSearchOpen(true)}>
-												<i className='fa-regular fa-magnifying-glass'></i>
-											</button>
-										</div>
 										<div className='tp-header-btn d-none d-xl-block pl-40'>
 											<Link
 												className='tp-btn'
@@ -179,10 +173,7 @@ const HeaderOne = () => {
 					</div>
 				</div>
 			</header>
-			<SearchPopup
-				searchOpen={searchOpen}
-				setSearchOpen={setSearchOpen}
-			/>
+
 			<Sidebar
 				sidebarOpen={sidebarOpen}
 				setSidebarOpen={setSidebarOpen}

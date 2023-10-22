@@ -26,14 +26,11 @@ const menu_data = [
   {
     id: 3,
     mega_menu: false,
-    has_dropdown: true,
+    has_dropdown: false,
     title: "Services",
     link: "/service",
     active: "",
-    sub_menus: [
-      { link: "/service", title: "Service" },
-      // { link: "/service-details", title: "Services Details" },
-    ],
+
   },
   {
     id: 4,
