@@ -12,7 +12,6 @@ import Logo from "@assets/img/logo/logo.png";
 const HeaderOne = () => {
 	const { sticky } = useSticky();
 	const langToggleRef = useRef(null);
-	const [searchOpen, setSearchOpen] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	const [isLangListOpen, setIsLangListOpen] = useState(false);
@@ -58,33 +57,6 @@ const HeaderOne = () => {
 												</span>
 												technix@support.com
 											</a>
-										</li>
-										<li>
-											<div className='tp-header-lang-wrapper d-flex align-items-center'>
-												<div className='tp-header-lang-img'>
-													<Image
-														src={LangLogo}
-														alt='theme-pure'
-													/>
-												</div>
-												<div className='tp-header-lang'>
-													<span
-														className='tp-header-lang-selected-lang tp-lang-toggle'
-														id='tp-header-lang-toggle'
-														ref={langToggleRef}>
-														English
-													</span>
-
-													<ul
-														className={`tp-header-lang-list tp-lang-list ${
-															isLangListOpen ? "tp-lang-list-open" : ""
-														}`}>
-														<li>Spanish</li>
-														<li>English</li>
-														<li>Canada</li>
-													</ul>
-												</div>
-											</div>
 										</li>
 									</ul>
 								</div>
