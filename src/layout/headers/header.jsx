@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import NavMenu from "./nav-menu";
-import LangLogo from "@assets/img/logo/logo-lang.png";
 import useSticky from "@/src/hooks/use-sticky";
 import HamburgerBtn from "@/src/svg/hamburger-btn";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,6 +9,18 @@ import Sidebar from "@/src/modals/sidebar";
 import Logo from "@assets/img/logo/logo.png";
 
 const HeaderOne = () => {
+	const [headerData, setHeaderData] = useState({});
+	const [social, setSocial] = useState([]);
+	useEffect(() => {
+		// Data fetching logic here
+		fetch("http://localhost:1337/api/header?populate=*")
+			.then((response) => response.json())
+			.then((data) => {
+				setHeaderData(data.data.attributes);
+				setSocial(data.data.attributes.SocialLinks);
+			});
+	}, []);
+
 	const { sticky } = useSticky();
 	const langToggleRef = useRef(null);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -47,7 +58,7 @@ const HeaderOne = () => {
 												<span>
 													<i className='fa-sharp fa-solid fa-location-dot'></i>
 												</span>
-												734 H, Bryan Burlington, NC 27215
+												{headerData.address}
 											</a>
 										</li>
 										<li>
@@ -55,7 +66,7 @@ const HeaderOne = () => {
 												<span>
 													<i className='fa-solid fa-envelope'></i>
 												</span>
-												technix@support.com
+												{headerData.email}
 											</a>
 										</li>
 									</ul>
@@ -65,20 +76,22 @@ const HeaderOne = () => {
 								<div className='tp-header-top-right d-flex justify-content-end align-items-center'>
 									<div className='header-call'>
 										<a href='tel:01310-069824'>
-											<i className='fa-solid fa-phone'></i> +88 01310-069824
+											<i className='fa-solid fa-phone'></i>{" "}
+											{headerData.phoneNumber}
 										</a>
 									</div>
-									<div className='header-social d-xxl-block d-none'>
-										<Link href='#'>
-											<i className='fa-brands fa-facebook'></i> Facebook
-										</Link>
-										<Link href='#'>
-											<i className='fa-brands fa-twitter'></i> Skype
-										</Link>
-										<Link href='#'>
-											<i className='fa-brands fa-linkedin'></i> Linkedin
-										</Link>
-									</div>
+									{social.length > 0 && (
+										<div className='header-social d-xxl-block d-none'>
+											{social.map((item, index) => (
+												<Link
+													key={index}
+													href={item.url}>
+													<i className={`fa-brands fa-${item.name}`}></i>{" "}
+													{item.name}
+												</Link>
+											))}
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
