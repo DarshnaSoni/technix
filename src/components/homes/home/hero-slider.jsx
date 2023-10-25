@@ -86,7 +86,7 @@ const HeroSlider = () => {
 													style={{
 														backgroundImage: `url(${
 															process.env.NEXT_PUBLIC_API_URL +
-															item.heroImg.data[0].attributes.url
+															(item.heroImg?.data[0]?.attributes?.url || "")
 														})`,
 													}}></div>
 												<div className='row'>
@@ -133,38 +133,38 @@ const HeroSlider = () => {
 															</button>
 														</div>
 													</div>
+													<div className='tp-hero-bottom'>
+														<div className='tp-hero-experince'>
+															<span className='year'>
+																{" "}
+																{item.years}
+																<br />{" "}
+																<i className='experince'>Years of Experience</i>
+															</span>
+														</div>
+													</div>
+
+													<div
+														className='tp-hero-service'
+														style={{
+															backgroundImage: `url(/assets/img/hero/shape-6.png)`,
+														}}>
+														<div className='tp-hero-service-shape'>
+															<Image
+																src={service_shape}
+																alt='theme-pure'
+															/>
+														</div>
+														<p>{item.tagline}</p>
+														<div className='tp-hero-service-quote'>
+															<Image
+																src={service_quote}
+																alt='theme-pure'
+															/>
+														</div>
+													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-
-									<div className='tp-hero-bottom'>
-										<div className='tp-hero-experince'>
-											<span className='year'>
-												{" "}
-												{item.years}
-												<br /> <i className='experince'>Years of Experience</i>
-											</span>
-										</div>
-									</div>
-
-									<div
-										className='tp-hero-service'
-										style={{
-											backgroundImage: `url(/assets/img/hero/shape-6.png)`,
-										}}>
-										<div className='tp-hero-service-shape'>
-											<Image
-												src={service_shape}
-												alt='theme-pure'
-											/>
-										</div>
-										<p>{item.tagline}</p>
-										<div className='tp-hero-service-quote'>
-											<Image
-												src={service_quote}
-												alt='theme-pure'
-											/>
 										</div>
 									</div>
 								</SwiperSlide>
