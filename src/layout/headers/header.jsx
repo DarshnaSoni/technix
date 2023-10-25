@@ -75,7 +75,7 @@ const HeaderOne = () => {
 							<div className='col-xxl-6 col-xl-4'>
 								<div className='tp-header-top-right d-flex justify-content-end align-items-center'>
 									<div className='header-call'>
-										<a href='tel:01310-069824'>
+										<a href={`tel:${headerData.phoneNumber}`}>
 											<i className='fa-solid fa-phone'></i>{" "}
 											{headerData.phoneNumber}
 										</a>
