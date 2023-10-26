@@ -4,82 +4,10 @@ import { Navigation } from "swiper";
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import AngleArrow from "@/src/svg/angle-arrow";
+import customImageLoader from "@/loader";
 
-import about_img_1 from "@assets/img/about/icon-1.png";
-import about_img_2 from "@assets/img/about/icon-2.png";
-import about_img_3 from "@assets/img/about/icon-3.png";
 import LineArrowTwo from "@/src/svg/line-arrow-2";
 import shape_1 from "@assets/img/about/shape-1.png";
-import about from "@assets/img/about/about-1.png";
-
-const about_data = [
-	{
-		id: 1,
-		img: about_img_1,
-		title: "Business services",
-		description: (
-			<>
-				As far as we might be concerned <br /> making an extraordinary advanc
-				<br /> ed experience is a blend bet
-			</>
-		),
-	},
-	{
-		id: 2,
-		img: about_img_2,
-		title: "Education and training",
-		description: (
-			<>
-				As far as we might be concerned <br /> making an extraordinary advanc
-				<br /> ed experience is a blend bet
-			</>
-		),
-	},
-	{
-		id: 2,
-		img: about_img_3,
-		title: "Artificial intelligence",
-		description: (
-			<>
-				As far as we might be concerned <br /> making an extraordinary advanc
-				<br /> ed experience is a blend bet
-			</>
-		),
-	},
-	{
-		id: 1,
-		img: about_img_1,
-		title: "Business services",
-		description: (
-			<>
-				As far as we might be concerned <br /> making an extraordinary advanc
-				<br /> ed experience is a blend bet
-			</>
-		),
-	},
-	{
-		id: 2,
-		img: about_img_2,
-		title: "Education and training",
-		description: (
-			<>
-				As far as we might be concerned <br /> making an extraordinary advanc
-				<br /> ed experience is a blend bet
-			</>
-		),
-	},
-	{
-		id: 2,
-		img: about_img_3,
-		title: "Artificial intelligence",
-		description: (
-			<>
-				As far as we might be concerned <br /> making an extraordinary advanc
-				<br /> ed experience is a blend bet
-			</>
-		),
-	},
-];
 
 const setting = {
 	slidesPerView: 3,
@@ -153,11 +81,12 @@ const AboutArea = () => {
 						<div className='col-xl-4 col-lg-12'>
 							<div className='tp-about-wrapper-thumb text-center text-xl-start fadeLeft'>
 								{aboutData.Aboutimg && aboutData.Aboutimg.data && (
-									<img
-										src={
-											process.env.NEXT_PUBLIC_API_URL +
-											aboutData.Aboutimg?.data?.attributes.url
-										}
+									<Image
+										src={aboutData.Aboutimg?.data?.attributes.url}
+										width={500}
+										height={600}
+										alt={"IMAGE"}
+										loader={customImageLoader}
 									/>
 								)}
 							</div>
@@ -211,12 +140,12 @@ const AboutArea = () => {
 													key={i}
 													className='tp-about-item mb-30'>
 													<div className='tp-about-item-thumb'>
-														<img
-															src={
-																process.env.NEXT_PUBLIC_API_URL +
-																item.Image.data.attributes.url
-															}
+														<Image
+															src={item.Image.data.attributes.url}
 															alt='theme-pure'
+															width={100}
+															height={100}
+															loader={customImageLoader}
 														/>
 													</div>
 													<div className='tp-about-item-content'>
