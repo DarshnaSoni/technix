@@ -9,11 +9,6 @@ const menu_data = [
     title: "Home",
     link: "/",
     active: "",
-    // sub_menus: [
-    //   // { link: "/", title: "Home 1" },
-    //   // { link: "/home-2", title: "Home 2" },
-    //   // { link: "/home-3", title: "Home 3" }, 
-    // ],
   },
   {
     id: 2,
@@ -40,8 +35,6 @@ const menu_data = [
     link: "/about",
     active: "",
     sub_menus: [
-      { link: "/portfolio", title: "Portfolio" },
-      { link: "/portfolio-details", title: "Portfolio Details" },
       { link: "/team", title: "Team" },
       { link: "/team-details", title: "Team Details" },
       { link: "/404", title: "404" },

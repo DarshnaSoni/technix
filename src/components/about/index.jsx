@@ -9,7 +9,6 @@ import TestimonialArea from "@/src/common/testimonial-area";
 import BrandArea from "@/src/common/brand-area";
 import TeamArea from "@/src/common/team-area";
 import BlogArea from "@/src/common/blog-area";
-import FooterContact from "@/src/layout/footers/footer-contact";
 import Footer from "@/src/layout/footers/footer";
 
 const About = () => {
@@ -29,7 +28,6 @@ const About = () => {
 				<BrandArea />
 				<TeamArea />
 				<BlogArea />
-				<FooterContact />
 			</main>
 			<Footer />
 		</>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import user from "@assets/img/footer/user.png";
 import EmailAeroplan from "@/src/svg/email-aeroplan";
 import SocialLinks, { CopyRight } from "@/src/common/social-links";
 import customImageLoader from "@/loader";

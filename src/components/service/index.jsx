@@ -6,7 +6,6 @@ import VideoArea from "@/src/common/video-area";
 import IndustryArea from "@/src/common/industry-area";
 import BrandArea from "@/src/common/brand-area";
 import BlogArea from "@/src/common/blog-area";
-import FooterContact from "@/src/layout/footers/footer-contact";
 import Footer from "@/src/layout/footers/footer";
 
 const Sevice = () => {
@@ -23,7 +22,6 @@ const Sevice = () => {
 				<IndustryArea service={true} />
 				<BrandArea service={true} />
 				<BlogArea service={true} />
-				<FooterContact />
 			</main>
 			<Footer />
 		</>
