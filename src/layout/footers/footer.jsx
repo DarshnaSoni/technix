@@ -78,7 +78,6 @@ const Footer = () => {
 								<div className='tp-footer-widget tp-footer-col-1'>
 									<div className='tp-footer-logo'>
 										<a href='index.html'>
-											{" "}
 											<Image
 												src={footerData?.Logo.data.attributes.url}
 												alt='theme-pure'

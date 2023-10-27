@@ -7666,9 +7666,9 @@ div.demo img {
   width: 100%;
   left: 0;
 }
-.tp-feature-area.feature-breadcrumb {
+/* .tp-feature-area.feature-breadcrumb {
   padding-top: 0;
-}
+} */
 .tp-feature-area.feature-breadcrumb::before {
   display: none;
 }

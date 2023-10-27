@@ -27,22 +27,21 @@ const menu_data = [
     active: "",
 
   },
-  {
-    id: 4,
-    mega_menu: false,
-    has_dropdown: true,
-    title: "Pages",
-    link: "/about",
-    active: "",
-    sub_menus: [
-      { link: "/team", title: "Team" },
-      { link: "/team-details", title: "Team Details" },
-      { link: "/404", title: "404" },
-    ],
-  },
+  // {
+  //   id: 4,
+  //   mega_menu: false,
+  //   has_dropdown: true,
+  //   title: "Pages",
+  //   link: "/about",
+  //   active: "",
+  //   sub_menus: [
+  //     { link: "/team-details", title: "Team Details" },
+  //     { link: "/404", title: "404" },
+  //   ],
+  // },
 
   {
-    id: 5,
+    id: 4,
     mega_menu: false,
     has_dropdown: true,
     title: "Blog",
@@ -54,7 +53,7 @@ const menu_data = [
     ],
   },
   {
-    id: 6,
+    id: 5,
     mega_menu: false,
     has_dropdown: false,
     title: "Contact",
