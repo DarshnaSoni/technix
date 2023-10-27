@@ -1,23 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import headphone from "@assets/img/footer/headphone.png";
-import footer_logo from "@assets/img/logo/footer-logo.png";
 import user from "@assets/img/footer/user.png";
 import EmailAeroplan from "@/src/svg/email-aeroplan";
 import SocialLinks, { CopyRight } from "@/src/common/social-links";
+import customImageLoader from "@/loader";
 
 const footer_content = {
-	contact_us: (
-		<>
-			{" "}
-			Contact us at <span>@Themepure.com </span>
-		</>
-	),
-	mail: "@themepure.gmail.com",
-	contact_text: "PERFECT SOLUTION From  It Advisor",
-	phone: "92 666 888 0000",
 	info: (
 		<>
 			The world’s first and largest digital market for crypto collectibles and
@@ -47,20 +37,27 @@ const footer_content = {
 		"City Board Applications",
 	],
 };
-const {
-	contact_us,
-	mail,
-	contact_text,
-	phone,
-	info,
-	map,
-	address,
-	mail_2,
-	mail_phone,
-	service_links,
-} = footer_content;
+const { info, map, address, mail_2, mail_phone, service_links } =
+	footer_content;
 
 const Footer = () => {
+	const [footerData, setFooterData] = useState();
+	const [footerService, setFooterService] = useState([]);
+	const [footerContact, setFooterContact] = useState([]);
+
+	useEffect(() => {
+		fetch(
+			"http://localhost:1337/api/footer?populate[Logo][populate]=true&populate[Logo][fields][0]=name&populate[Logo][fields][1]=url&populate[moreDetails][populate][Image][populate]=true&populate[moreDetails][populate][Image][fields][0]=name&populate[moreDetails][populate][Image][fields][1]=url&populate[moreDetails][populate][Services][populate]=*"
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				setFooterData(data.data.attributes);
+				setFooterService(data.data.attributes.moreDetails[0].Services);
+				setFooterContact(data.data.attributes.moreDetails[1].Services);
+			})
+			.catch((error) => console.error("Error fetching data: ", error));
+	}, []);
+
 	return (
 		<>
 			<footer className='tp-footer-area p-relative'>
@@ -76,34 +73,6 @@ const Footer = () => {
 					}}></div>
 
 				<div className='container container-large'>
-					<div className='row'>
-						<div className='col-lg-12'>
-							<div className='tp-footer-top-area'>
-								<div className='row align-items-center'>
-									<div className='col-lg-6'>
-										<div className='tp-footer-top-contact'>
-											<a href={`mailto:${mail}`}>{contact_us}</a>
-										</div>
-									</div>
-									<div className='col-lg-6'>
-										<div className='tp-footer-top-right d-flex justify-content-start justify-content-lg-end'>
-											<div className='tp-footer-top-right-headphone'>
-												<Image
-													src={headphone}
-													alt='theme-pure'
-												/>
-											</div>
-											<div className='tp-footer-top-right-content'>
-												<p>{contact_text}</p>
-												<a href={`tel:${phone}`}>+92 666 888 0000</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
 					<div className='tp-footer-main-area'>
 						<div className='row'>
 							<div className='col-xl-3 col-lg-4 col-md-6'>
@@ -112,27 +81,32 @@ const Footer = () => {
 										<a href='index.html'>
 											{" "}
 											<Image
-												src={footer_logo}
+												src={footerData?.Logo.data.attributes.url}
 												alt='theme-pure'
+												loader={customImageLoader}
+												width={200}
+												height={50}
 											/>
 										</a>
 									</div>
 									<div className='tp-footer-widget-content'>
 										<div className='tp-footer-info'>
-											<p>{info}</p>
+											<p>{footerData?.description}</p>
 											<div className='tp-footer-main-location'>
 												<a
 													target='_blank'
 													href={map}>
 													{" "}
 													<i className='fa-sharp fa-light fa-location-dot'></i>
-													{address}
+													{footerData?.address}
 												</a>
 											</div>
 											<div className='tp-footer-main-mail'>
 												<a href={`mailto:${mail_2}`}>
 													<i className='fa-light fa-message-dots'></i>
-													{mail_phone}
+													{footerData?.mail}
+													<br />
+													{footerData?.phonenumber}
 												</a>
 											</div>
 										</div>
@@ -141,12 +115,14 @@ const Footer = () => {
 							</div>
 							<div className='col-xl-3 col-lg-4 col-md-6'>
 								<div className='tp-footer-widget tp-footer-col-2'>
-									<h3 className='tp-footer-widget-title'>Services Req</h3>
+									<h3 className='tp-footer-widget-title'>
+										{footerData?.moreDetails[0].Title}
+									</h3>
 									<div className='tp-footer-widget-content'>
 										<ul>
-											{service_links.map((link, i) => (
+											{footerService.map((link, i) => (
 												<li key={i}>
-													<Link href='#'>{link}</Link>
+													<Link href='#'>{link?.Name}</Link>
 												</li>
 											))}
 										</ul>
@@ -155,13 +131,21 @@ const Footer = () => {
 							</div>
 							<div className='col-xl-3 col-lg-4 col-md-6'>
 								<div className='tp-footer-widget tp-footer-col-3'>
-									<h3 className='tp-footer-widget-title'>Contact Info</h3>
+									<h3 className='tp-footer-widget-title'>
+										{footerData?.moreDetails[1].Title}
+									</h3>
 									<div className='tp-footer-widget-content'>
 										<div className='tp-footer-author d-flex'>
 											<div className='tp-footer-author-thumb'>
 												<Image
-													src={user}
+													src={
+														footerData?.moreDetails[1].Image?.data.attributes
+															.url
+													}
 													alt='theme-pure'
+													loader={customImageLoader}
+													width={70}
+													height={70}
 												/>
 											</div>
 											<div className='tp-footer-author-content'>
@@ -171,15 +155,11 @@ const Footer = () => {
 											</div>
 										</div>
 										<ul>
-											<li>
-												<Link href='#'>Parking permission</Link>
-											</li>
-											<li>
-												<Link href='#'>Fire Service Noc</Link>
-											</li>
-											<li>
-												<Link href='#'>Report a Parking Violation</Link>
-											</li>
+											{footerContact.map((link, i) => (
+												<li key={i}>
+													<Link href='#'>{link?.Name}</Link>
+												</li>
+											))}
 										</ul>
 									</div>
 								</div>

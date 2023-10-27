@@ -2,13 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import Count from "@/src/common/count";
 import React, { useEffect, useRef, useState } from "react";
-import service_data from "@/src/data/service-data";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 // svg icon
 import AngleArrow from "@/src/svg/angle-arrow";
 import LineArrowTwo from "@/src/svg/line-arrow-2";
-import GreenRightArrow from "@/src/svg/green-right-arrow";
+import customImageLoader from "@/loader";
 
 // fun fact shape
 import fun_fact_shape_1 from "@assets/img/fun-fact/shape-1.png";
@@ -19,33 +18,26 @@ import fun_fact_shape_5 from "@assets/img/fun-fact/shadow.png";
 
 import reload_img from "@assets/img/fun-fact/world.png";
 
-const counter_content = [
-	{
-		id: 1,
-		count: 10,
-		info: "Experience",
-		cls: "",
-		cls_2: "purecounter",
-		icon: "+",
-	},
-	{
-		id: 2,
-		count: 255,
-		info: "square area",
-		cls: "purecounter",
-		cls_2: "",
-		icon: "",
-	},
-	{
-		id: 3,
-		count: 310,
-		info: "square area",
-		cls: "purecounter",
-		cls_2: "",
-		icon: "",
-	},
-];
 const ServiceArea = () => {
+	const [serviceData, setServiceData] = useState(null);
+	const [counters, setCounters] = useState([]);
+	const [serviceCards, setServiceCards] = useState([]);
+
+	useEffect(() => {
+		fetch(
+			"http://localhost:1337/api/landingpages?populate[ServiceSection][populate][services][populate][Image][populate]=true&populate[ServiceSection][populate][services][populate][Image][fields][0]=name&populate[ServiceSection][populate][services][populate][Image][fields][1]=url&populate[ServiceSection][populate][counters][populate]=*&populate[ServiceSection][populate][Button][populate]=*"
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				setServiceData(data.data[0].attributes.ServiceSection[0]);
+				setCounters(data.data[0].attributes.ServiceSection[0].counters);
+				setServiceCards(data.data[0].attributes.ServiceSection[0].services);
+			})
+			.catch((error) => {
+				console.error("Error fetching data:", error);
+			});
+	}, []);
+
 	const setting = {
 		type: "loop",
 		drag: "free",
@@ -101,12 +93,14 @@ const ServiceArea = () => {
 							<div className='col-lg-12'>
 								<div className='tp-service-title-wrapper text-center'>
 									<span className='tp-section-title__pre'>
-										service{" "}
-										<span className='title-pre-color'>IT Solutions</span>
+										{serviceData?.shortTitle1 + " "}
+										<span className='title-pre-color'>
+											{serviceData?.shortTitle2}
+										</span>
 										<AngleArrow />
 									</span>
 									<h3 className='tp-section-title'>
-										All Professional <i>IT Solutions</i> & Services
+										{serviceData?.serviceTitle1}
 										<span className='title-center-shape'>
 											<LineArrowTwo />
 										</span>
@@ -119,20 +113,23 @@ const ServiceArea = () => {
 									options={setting}
 									ref={splideRef}
 									className='service-active splide'>
-									{service_data.map((item, i) => (
+									{serviceCards.map((item, i) => (
 										<SplideSlide key={i}>
 											<div className='tp-service-wrapper p-relative mb-55'>
 												<div className='tp-service-designation'>
-													<p>{item.alphabet}</p>
+													<p>{item.Alphabet}</p>
 												</div>
-												<h3 className='service-title'>{item.title}</h3>
+												<h3 className='service-title'>{item.Title}</h3>
 												<div className='tp-service-icon'>
 													<Image
-														src={item.img}
+														src={item.Image.data.attributes.url}
+														width={50}
+														height={50}
 														alt='theme-pure'
+														loader={customImageLoader}
 													/>
 												</div>
-												<p className='hide-text'>{item.description}</p>
+												<p className='hide-text'>{item.Description}</p>
 											</div>
 										</SplideSlide>
 									))}
@@ -175,11 +172,11 @@ const ServiceArea = () => {
 						<div className='row'>
 							<div className='col-lg-2 col-md-4'>
 								<div className='tp-fun-fact-wrapper-box'>
-									{counter_content.map((item, i) => (
+									{counters.map((item, i) => (
 										<div
 											key={i}
 											className='tp-fun-fact-wrapper'>
-											<h3 className={`counter-title ${item.cls}`}>
+											<h3 className='counter-title purecounter'>
 												<span
 													data-purecounter-duration='4'
 													className='purecounter'>
@@ -208,41 +205,25 @@ const ServiceArea = () => {
 								<div className='tp-fun-fact-content'>
 									<div className='tp-fun-fact-title-wrapper'>
 										<span className='tp-section-title__pre'>
-											service{" "}
-											<span className='title-pre-color'>IT Solutions</span>
+											{serviceData?.shortTitle1 + " "}
+											<span className='title-pre-color'>
+												{serviceData?.shortTitle2}
+											</span>
 											<AngleArrow />
 										</span>
 										<h3 className='tp-section-title'>
-											Tech Change The World
+											{serviceData?.serviceTitle2}
 											<span className='title-left-shape'>
 												<LineArrowTwo />
 											</span>
 										</h3>
-										<p>
-											Our company provides a full range of services for the
-											construction of <br /> private houses and cottages since
-											19
-										</p>
-										<ul>
-											<li>
-												<span>
-													{" "}
-													<GreenRightArrow />
-												</span>
-												series of manual and semi-manual activities.
-											</li>
-											<li>
-												<span>
-													<GreenRightArrow />{" "}
-												</span>
-												onstruction is different from other industries.
-											</li>
-										</ul>
+										<p>{serviceData?.Description}</p>
+
 										<div className='tp-fun-fact-btn'>
 											<Link
 												className='tp-btn'
 												href='../../contact'>
-												Tell us How Can We Help
+												{serviceData?.Button.Name}
 											</Link>
 										</div>
 									</div>
