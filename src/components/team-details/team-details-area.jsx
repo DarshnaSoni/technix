@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import team_shape_1 from "@assets/img/team/details/shape-1.png";
@@ -7,6 +7,7 @@ import team_member from "@assets/img/team/details/img-1.jpg";
 import { SocialLinksTwo } from "@/src/common/social-links";
 import RightSymbol from "@/src/svg/right-symbol";
 import { useRouter } from "next/router";
+import customImageLoader from "@/loader";
 
 const team_details_contact = {
 	name: "Cameron Williamson",
@@ -36,8 +37,25 @@ const { name, job_title, member_info, description, list_title, lists } =
 	team_details_contact;
 
 const TeamDetailsArea = () => {
+	const [teamdata, setTeamdata] = useState([]);
+
+	useEffect(() => {
+		fetch(
+			"http://localhost:1337/api/about-pages?populate[TeamSection][populate][teamcards][populate][Image][populate]=true&populate[TeamSection][populate][teamcards][populate][Image][fields][0]=name&populate[TeamSection][populate][teamcards][populate][Image][fields][1]=url&populate[TeamSection][populate][teamcards][populate][Services][populate]=*&populate[TeamSection][populate][teamcards][populate][SocialLinks][populate]=*"
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				setTeamdata(data.data[0].attributes.TeamSection[0].teamcards);
+			})
+			.catch((error) => {
+				console.error("Error fetching team data:", error);
+			});
+	}, []);
 	const router = useRouter();
 	const { id } = router.query;
+
+	const teamMember = teamdata.find((member) => member.id.toString() === id);
+
 	return (
 		<>
 			<section className='tp-team-details-area p-relative pt-120 pb-90'>
@@ -58,7 +76,10 @@ const TeamDetailsArea = () => {
 						<div className='col-lg-4'>
 							<div className='tp-team-details-thumb p-relative text-center fadeLeft'>
 								<Image
-									src={team_member}
+									src={teamMember?.Image.data.attributes.url}
+									width={300}
+									height={350}
+									loader={customImageLoader}
 									alt='theme-pure'
 								/>
 								<div className='social text-center'>
@@ -73,13 +94,15 @@ const TeamDetailsArea = () => {
 										<div className='tp-team-detials-designation-wrapper'>
 											<div className='tp-team-details-designation-content'>
 												<h4 className='tp-team-details-designation-title'>
-													{name}
+													{teamMember?.Name}
 												</h4>
 												<p className='tp-team-details-designation'>
-													{job_title}
+													{teamMember?.jobTitle}
 												</p>
 												<div className='tp-team-details-meta d-flex'>
-													<p>{member_info}</p>
+													<p>
+														{teamMember?.Country} / Age: {teamMember?.Age}
+													</p>
 												</div>
 											</div>
 										</div>
@@ -106,21 +129,21 @@ const TeamDetailsArea = () => {
 									</div>
 								</div>
 								<div className='tp-team-details-info'>
-									<p>{description}</p>
+									<p>{teamMember?.description}</p>
 								</div>
 								<div className='tp-team-details-list'>
-									<p className='list-title'>{list_title}</p>
+									<p className='list-title'>{teamMember?.serciveTitle}</p>
 									<ul>
-										{lists.map((list, index) => (
-											<li key={index}>
-												{" "}
-												<span>
-													{" "}
-													<RightSymbol />{" "}
-												</span>
-												{list}
-											</li>
-										))}
+										{teamMember &&
+											teamMember.Services.map((service, index) => (
+												<li key={index}>
+													<span>
+														{" "}
+														<RightSymbol />{" "}
+													</span>
+													{service.Name}
+												</li>
+											))}
 									</ul>
 								</div>
 							</div>
