@@ -3,7 +3,6 @@ import Image from "next/image";
 
 import team_shape_1 from "@assets/img/team/details/shape-1.png";
 import team_shape_2 from "@assets/img/team/details/shape-2.png";
-import team_member from "@assets/img/team/details/img-1.jpg";
 import { SocialLinksTwo } from "@/src/common/social-links";
 import RightSymbol from "@/src/svg/right-symbol";
 import { useRouter } from "next/router";

@@ -1,5 +1,4 @@
 import customImageLoader from "@/loader";
-import our_service_data from "@/src/data/our-service-data";
 import AngleArrow from "@/src/svg/angle-arrow";
 import Image from "next/image";
 import Link from "next/link";
